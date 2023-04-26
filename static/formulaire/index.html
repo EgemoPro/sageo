@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Formulaire de contact</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h4 class="card-title text-center mb-4">Formulaire de contact</h4>
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="firstname">Prénom</label>
+                                <input type="text" class="form-control" id="firstname" name="firstname" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastname">Nom de famille</label>
+                                <input type="text" class="form-control" id="lastname" name="lastname" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="emeil">email</label>
+                                <input type="text" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Qui êtes-vous ?</label>
+                                <select class="form-control" id="status" name="status">
+                                    <option value="etudiant">Etudiant</option>
+                                    <option value="lyceen">Lycéen</option>
+                                    <option value="diplome">Diplômé</option>
+                                    <option value="parent">Parent</option>
+                                    <option value="enseignant">Enseignant</option>
+                                    <option value="autre">Autre</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="place">Région</label>
+                                <select class="form-control" id="place" name="place">
+                                    <option value="niger">Niger</option>
+                                    <option value="france">France</option>
+                                    <option value="agadez">Agadez</option>
+                                    <option value="diffa">Diffa</option>
+                                    <option value="dosso">Dosso</option>
+                                    <option value="maradi">Maradi</option>
+                                    <option value="tahoua">Tahoua</option>
+                                    <option value="tillaberi">Tillabéri</option>
+                                    <option value="zinder">Zinder</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="tel">Téléphone</label>
+                                <input type="tel" class="form-control" id="tel" name="tel" required>
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-primary">Envoyer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        const form = document.getElementById("contact-form");
+        form.addEventListener("submit", event => {
+            event.preventDefault();
+            const firstname = document.getElementById("firstname").value
+            const lastname = document.getElementById("lastname").value
+            const email = document.getElementById("email").value
+            const status = document.getElementById("status").value
+            const tel = document.getElementById("tel").value
+            const place = document.getElementById("place").value
+
+            const data = {firstname,lastname,email,status,tel,place,}
+            console.log(data);
+            fetch("http://localhost:3000/api", {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-type": "application/json;charset=UTF-8"
+                }
+            }).then(response => {
+                    if (response.ok) {
+                        alert("Formulaire envoyé avec succès !");
+                        form.reset();
+                    } else {
+                        throw new Error("Erreur lors de l'envoi du formulaire");
+                    }
+                })
+                .catch(error => alert(error));
+        });
+
+    </script>
+</body>
+
+</html>
